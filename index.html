@@ -7,21 +7,17 @@
 function gUM(fcng){
 navigator.getUserMedia = navigator.getUserMedia || navigator.webkitGetUserMedia ||
 navigator.mozGetUserMedia;
-if (navigator.getUserMedia) {
-   navigator.getUserMedia({ audio: true, video: { facingMode: fcng } },
-      function(stream) {
-         var video = document.querySelector('video');
-         video.srcObject = stream;
-         video.onloadedmetadata = function(e) {
-           video.play();
-         };
-      },
-      function(err) {
-         alert("The following error occurred: " + err.name);
-      }
-   );
-} else {
-   alert("getUserMedia not supported");
+if(navigator.getUserMedia){
+  navigator.getUserMedia({audio:true,video:{facingMode:fcng}},
+    function(stream){
+      document.querySelector("video").srcObject = stream;
+      document.querySelector("video").onloadedmetadata = function(e) {
+        document.querySelectorAll("button")[2].removeAttribute("disabled");
+      };
+    },function(err){alert("The following error occurred: " + err.name);}
+  );
+}else{
+ alert("getUserMedia not supported");
 }
 }
 </script>
@@ -31,6 +27,7 @@ if (navigator.getUserMedia) {
 <br>
 <button onclick="gUM('environment');">Back Camera gUM</button>
 <br>
+<input type="checkbox" onclick="this.value?document.querySelector('video').play():document.querySelector('video').pause();" checked disabled>Toggle Playback
 <video></video>
 </body>
 </html>
