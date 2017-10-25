@@ -1,0 +1,36 @@
+<!DOCTYPE html5>
+<html>
+<head>
+<title>gUM4iOS</title>
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<script>
+function gUM(fcng){
+navigator.getUserMedia = navigator.getUserMedia || navigator.webkitGetUserMedia ||
+navigator.mozGetUserMedia;
+if (navigator.getUserMedia) {
+   navigator.getUserMedia({ audio: true, video: { facingMode: fcng } },
+      function(stream) {
+         var video = document.querySelector('video');
+         video.srcObject = stream;
+         video.onloadedmetadata = function(e) {
+           video.play();
+         };
+      },
+      function(err) {
+         alert("The following error occurred: " + err.name);
+      }
+   );
+} else {
+   alert("getUserMedia not supported");
+}
+}
+</script>
+</head>
+<body>
+<button onclick="gUM('user');">Front Camera gUM</button>
+<br>
+<button onclick="gUM('environment');">Back Camera gUM</button>
+<br>
+<video></video>
+</body>
+</html>
