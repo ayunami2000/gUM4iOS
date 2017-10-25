@@ -12,7 +12,7 @@ if(navigator.getUserMedia){
     function(stream){
       document.querySelector("video").srcObject = stream;
       document.querySelector("video").onloadedmetadata = function(e) {
-        document.querySelector("input").removeAttribute("disabled");
+        //document.querySelector("input").removeAttribute("disabled");
       };
     },function(err){alert("The following error occurred: " + err.name);}
   );
@@ -27,7 +27,7 @@ if(navigator.getUserMedia){
 <br>
 <button onclick="gUM('environment');">Back Camera gUM</button>
 <br>
-<input type="checkbox" onclick="this.value?document.querySelector('video').play():document.querySelector('video').pause();" checked disabled>Toggle Playback
+<input type="checkbox" onclick="this.value?document.querySelector('video').play():document.querySelector('video').pause();" checked>Paused
 <video></video>
 </body>
 </html>
