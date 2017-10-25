@@ -12,7 +12,7 @@ if(navigator.getUserMedia){
     function(stream){
       document.querySelector("video").srcObject = stream;
       document.querySelector("video").onloadedmetadata = function(e) {
-        document.querySelectorAll("button")[2].removeAttribute("disabled");
+        document.querySelector("input").removeAttribute("disabled");
       };
     },function(err){alert("The following error occurred: " + err.name);}
   );
