@@ -4,18 +4,31 @@
 <title>gUM4iOS</title>
 <meta name="viewport" content="width=device-width,initial-scale=1.0">
 <script>
+function amplifyMedia(mediaElem, multiplier) {
+  var context = new (window.AudioContext || window.webkitAudioContext),
+      result = {
+        context: context,
+        source: context.createMediaElementSource(mediaElem),
+        gain: context.createGain(),
+        media: mediaElem,
+        amplify: function(multiplier) { result.gain.gain.value = multiplier; },
+        getAmpLevel: function() { return result.gain.gain.value; }
+      };
+  result.source.connect(result.gain);
+  result.gain.connect(context.destination);
+  result.amplify(multiplier);
+  return result;
+}
 function gUM(fcng){
 navigator.getUserMedia = navigator.getUserMedia || navigator.webkitGetUserMedia ||
 navigator.mozGetUserMedia;
 if(navigator.getUserMedia){
   navigator.getUserMedia({audio:true,video:{facingMode:fcng}},
     function(stream){
-      document.querySelector("audio").srcObject = stream.getAudioTracks();
       document.querySelector("video").srcObject = stream;
       document.querySelector("video").onloadedmetadata = function(e) {
-        document.querySelector("video").muted=true;
         document.querySelector("video").play();
-        document.querySelector("audio").play();
+        amplifyMedia(document.querySelector("video"),2);
       };
     },function(err){alert("The following error occurred: " + err.name);}
   );
@@ -30,9 +43,6 @@ if(navigator.getUserMedia){
 <br>
 <button onclick="gUM('environment');">Back Camera gUM</button>
 <br>
-<button onclick="">Toggle Audio</button>
-<br>
 <video style="width:100%;display:inline-block;" playsinline></video>
-<audio style="width:100%;" playsinline></audio>
 </body>
 </html>
