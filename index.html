@@ -45,7 +45,7 @@ if(navigator.getUserMedia){
 <br>
 <button onclick="gUM('environment');">Back Camera gUM</button>
 <br>
-<input type="checkbox" oninput="this.checked?streamrec=webcamstream.record():streamrec.getRecordedData(function(blob){alert(blob);});">Record</button>
+<input type="checkbox" oninput="if(this.checked){streamrec=webcamstream.record();}else{streamrec.getRecordedData(function(blob){alert(blob);});}">Record</button>
 <br>
 <video style="width:100%;display:inline-block;" playsinline></video>
 </body>
