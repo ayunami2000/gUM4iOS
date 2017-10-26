@@ -10,9 +10,11 @@ navigator.mozGetUserMedia;
 if(navigator.getUserMedia){
   navigator.getUserMedia({audio:true,video:{facingMode:fcng}},
     function(stream){
+      //document.querySelector("audio").srcObject = stream.getAudioTracks();
       document.querySelector("video").srcObject = stream;
       document.querySelector("video").onloadedmetadata = function(e) {
-        document.querySelector("video").play();
+        //document.querySelector("video").play();
+        //document.querySelector("audio").play();
       };
     },function(err){alert("The following error occurred: " + err.name);}
   );
@@ -26,6 +28,8 @@ if(navigator.getUserMedia){
 <button onclick="gUM('user');">Front Camera gUM</button>
 <br>
 <button onclick="gUM('environment');">Back Camera gUM</button>
+<br>
+<button onclick="">Toggle Audio</button>
 <br>
 <video style="width:100%;display:inline-block;" playsinline></video>
 </body>
