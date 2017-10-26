@@ -10,8 +10,8 @@ navigator.mozGetUserMedia;
 if(navigator.getUserMedia){
   navigator.getUserMedia({audio:true,video:{facingMode:fcng}},
     function(stream){
-      document.querySelectorAll("video")[(fcng=="user"?0:1)].srcObject = stream;
-      document.querySelectorAll("video")[(fcng=="user"?0:1)].onloadedmetadata = function(e) {
+      document.querySelector("video").srcObject = stream;
+      document.querySelector("video").onloadedmetadata = function(e) {
         //document.querySelector("input").removeAttribute("disabled");
       };
     },function(err){alert("The following error occurred: " + err.name);}
@@ -27,10 +27,10 @@ if(navigator.getUserMedia){
 <br>
 <button onclick="gUM('environment');">Back Camera gUM</button>
 <br>
-<button onclick="gUM('user');gUM('environment');">Both Cameras</button>
+<button onclick="gUM('user');gUM('environment');" disabled>Both Cameras (doesn't work)</button>
 <br>
 <input type="checkbox" onclick="this.value?document.querySelectorAll('video')[0].play():document.querySelectorAll('video')[0].pause();this.value?document.querySelectorAll('video')[1].play():document.querySelectorAll('video')[1].pause();" checked>Paused (fixes issue with video on iOS)
-<video style="width:50%;display:inline-block;" playsinline></video>
-<video style="width:50%;display:inline-block;" playsinline></video>
+<video style="width:100%;display:inline-block;" playsinline></video>
+<!--<video style="width:50%;display:inline-block;" playsinline></video>-->
 </body>
 </html>
