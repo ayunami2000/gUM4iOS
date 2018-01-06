@@ -1,7 +1,7 @@
 <!DOCTYPE html5>
 <html>
 <head>
-<title>I think I warped reality...</title>
+<title>getUserMedia Demo</title>
 <script>
 function amplifyMedia(mediaElem,multiplier){
 var context=new (window.AudioContext||window.webkitAudioContext),result={context:context,source:context.createMediaElementSource(mediaElem),gain:context.createGain(),media:mediaElem,amplify:function(multiplier){result.gain.gain.value=multiplier;},getAmpLevel:function(){return result.gain.gain.value;}};
@@ -15,13 +15,11 @@ navigator.getUserMedia=navigator.getUserMedia||navigator.webkitGetUserMedia||nav
 navigator.mediaDevices.getUserMedia=navigator.mediaDevices.getUserMedia||navigator.mediaDevices.webkitGetUserMedia;
 if(navigator.mediaDevices.getUserMedia){navigator.mediaDevices.getUserMedia({audio:true,video:{facingMode:fcng}}).then(function(stream){document.querySelector("video").srcObject=stream;}).catch(alert);}else if(navigator.getUserMedia){navigator.getUserMedia({audio:true,video:{facingMode:fcng}},function(stream){document.querySelector("video").srcObject=stream;},function(err){alert('[Deprecated gUM] '+err);});}else{alert("getUserMedia not supported");}
 }
-
-//navigator.mediaDevices.getUserMedia||navigator.getUserMedia||navigator.mediaDevices.webkitGetUserMedia||navigator.webkitGetUserMedia||navigator.mozGetUserMedia
 </script>
 </head>
 <body>
 Front Cam gUM: <input type="radio" name="selCam" value="user" onchange="gUM(this.value);"/>
 Back Cam gUM: <input type="radio" name="selCam" value="environment" onchange="gUM(this.value);"/>
-<video onloadedmetadata="this.play();amplifyMedia(this,2);" style="width:50%;display:block;" playsinline></video>
+<video onloadedmetadata="this.play();amplifyMedia(this,2);" style="width:100%;display:inline-block;" playsinline></video>
 </body>
 </html>
