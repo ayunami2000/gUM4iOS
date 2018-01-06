@@ -4,14 +4,6 @@
 <title>getUserMedia Demo</title>
 <meta name="viewport" content="width=device-width,initial-scale=1.0">
 <script>
-/*
-function amplifyMedia(mediaElem,multiplier){
-var context=new (window.AudioContext||window.webkitAudioContext),result={context:context,source:context.createMediaElementSource(mediaElem),gain:context.createGain(),media:mediaElem,amplify:function(multiplier){result.gain.gain.value=multiplier;},getAmpLevel:function(){return result.gain.gain.value;}};
-result.source.connect(result.gain);
-result.gain.connect(context.destination);
-result.amplify(multiplier);
-return result;
-}*/
 function gUM(val,isFullParams){
 navigator.getUserMedia=navigator.getUserMedia||navigator.webkitGetUserMedia||navigator.mozGetUserMedia;
 navigator.mediaDevices.getUserMedia=navigator.mediaDevices.getUserMedia||navigator.mediaDevices.webkitGetUserMedia;
@@ -45,6 +37,6 @@ Other Video Capture Device: <input type="radio" name="selCam" value="other" onch
 <button onclick="listDevices();">Refresh device list</button>
 <select onchange="gUM({audio:{deviceId:{exact:this.nextElementSibling.value}},video:{deviceId:{exact:this.value}}},1);"><option selected>Loading video devices...</option></select>
 <select onchange="gUM({audio:{deviceId:{exact:this.value}},video:{deviceId:{exact:this.previousElementSibling.value}}},1);"><option selected>Loading audio devices...</option></select><br>
-<video onloadedmetadata="this.play();amplifyMedia(this,2);" style="width:50%;display:inline-block;" playsinline></video>
+<video onloadedmetadata="this.play();" style="width:50%;display:inline-block;" playsinline></video>
 </body>
 </html>
