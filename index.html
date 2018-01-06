@@ -17,7 +17,7 @@ navigator.mediaDevices.getUserMedia=navigator.mediaDevices.getUserMedia||navigat
 if(navigator.mediaDevices.getUserMedia){
 if(navigator.mediaDevices.enumerateDevices){
 navigator.mediaDevices.enumerateDevices().then(function(devices){
-devices.forEach(function(device){document.querySelector('select').innerHTML+="<option>"+(device.label?device.label:('aeiou'.indexOf(device.kind.toLowerCase().charAt(0))!=-1)?'An ':'A ')+device.kind.slice(0,-5))+" device</option>";console.log((device.label?('The device "'+device.label+'"'):'This device')+" is a"+(('aeiou'.indexOf(device.kind.toLowerCase().charAt(0))!=-1)?'n ':' ')+device.kind.slice(0,-5)+" device with the id "+device.deviceId);});
+devices.forEach(function(device){document.querySelector('select').innerHTML+="<option>"+(device.label?device.label:(('aeiou'.indexOf(device.kind.toLowerCase().charAt(0))!=-1)?'An ':'A ')+device.kind.slice(0,-5)+" device")+"</option>";console.log((device.label?('The device "'+device.label+'"'):'This device')+" is a"+(('aeiou'.indexOf(device.kind.toLowerCase().charAt(0))!=-1)?'n ':' ')+device.kind.slice(0,-5)+" device with the id "+device.deviceId);});
 }).catch(alert);
 }
 navigator.mediaDevices.getUserMedia({audio:true,video:{facingMode:fcng}}).then(function(stream){document.querySelector("video").srcObject=stream;}).catch(alert);
