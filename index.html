@@ -31,12 +31,14 @@ if(devices.length==0){document.querySelector('select').innerHTML="<optgroup labe
 </script>
 </head>
 <body style="text-align:center;" onload="document.querySelectorAll('input').forEach(function(el){el.checked=el.value=='other';});listDevices();">
-Front Cam gUM: <input type="radio" name="selCam" value="user" onchange="gUM(this.value);this.nextElementSibling.nextElementSibling.nextElementSibling.nextElementSibling.onchange();"/><br>
-Back Cam gUM: <input type="radio" name="selCam" value="environment" onchange="gUM(this.value);this.nextElementSibling.nextElementSibling.onchange();"/><br>
-Other Video Capture Device: <input type="radio" name="selCam" value="other" onchange="listDevices();document.querySelector('select').previousElementSibling.disabled=document.querySelector('select').disabled=document.querySelectorAll('select')[1].disabled=!this.checked;"/><br>
+Front Cam gUM: <input type="radio" name="selCam" value="user" onchange="this.checked&&gUM(this.value);this.nextElementSibling.nextElementSibling.onchange();"/><br>
+Back Cam gUM: <input type="radio" name="selCam" value="environment" onchange="this.checked&&gUM(this.value);this.nextElementSibling.nextElementSibling.onchange();"/><br>
+Other Video Capture Device: <input type="radio" name="selCam" value="other" onchange="listDevices();document.querySelector('select').previousElementSibling.disabled=document.querySelector('select').disabled=document.querySelectorAll('select')[1].disabled=!this.checked;this.checked&&document.querySelector('select').onchange();"/><br>
 <button onclick="listDevices();">Refresh device lists</button>
-<select onchange="gUM({audio:{deviceId:{exact:this.nextElementSibling.value}},video:{deviceId:{exact:this.value}}},1);"><option selected>Loading video devices...</option></select>
-<select onchange="gUM({audio:{deviceId:{exact:this.value}},video:{deviceId:{exact:this.previousElementSibling.value}}},1);"><option selected>Loading audio devices...</option></select><br>
+<select onchange="gUM({video:document.querySelector('input[type=checkbox]').checked?0:{deviceId:{exact:this.value}},audio:document.querySelectorAll('input[type=checkbox]')[1].checked?0:{deviceId:{exact:this.nextElementSibling.value}}},1);"><option selected>Loading video devices...</option></select>
+<select onchange="document.querySelector('select').onchange();"><option selected>Loading audio devices...</option></select><br>
+Disable Video: <input type="checkbox" onchange="document.querySelector('select').onchange();"/><br>
+Disable Audio: <input type="checkbox" onchange="document.querySelector('select').onchange();"/><br>
 <video onloadedmetadata="this.play();" style="width:50%;display:inline-block;" playsinline></video>
 </body>
 </html>
