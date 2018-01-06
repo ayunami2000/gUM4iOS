@@ -22,16 +22,18 @@ navigator.getUserMedia({audio:true,video:{facingMode:val}},function(stream){docu
 }
 function listDevices(){
 if(navigator.mediaDevices.enumerateDevices){
-document.querySelector('select').innerHTML="<option selected>Loading devices...</option>";
+document.querySelector('select').innerHTML="<optgroup label='Video Devices'><option selected>Loading video devices...</option></optgroup>";
+document.querySelectorAll('select')[1].innerHTML="<option selected>Loading audio devices...</option>";
 navigator.mediaDevices.enumerateDevices().then(function(devices){
 document.querySelector('select').innerHTML="<optgroup label='Video Devices'>";
 devices.forEach(function(device){if(device.kind.toLowerCase()=="videoinput"){document.querySelector('select').innerHTML+="<option value='"+device.deviceId+"'>"+(device.label?device.label:"A video device")+"</option>";}});
-document.querySelector('select').innerHTML+="</optgroup><optgroup label='Audio Devices'>";
-devices.forEach(function(device){if(device.kind.toLowerCase()=="audioinput"){document.querySelector('select').innerHTML+="<option value='"+device.deviceId+"'>"+(device.label?device.label:"An audio device")+"</option>";}});
 document.querySelector('select').innerHTML+="</optgroup>";
-if(devices.length==0){document.querySelector('select').innerHTML="<option selected>No media devices detected.</option>";}
+document.querySelectorAll('select')[1].innerHTML="<optgroup label='Video Devices'>";
+devices.forEach(function(device){if(device.kind.toLowerCase()=="audioinput"){document.querySelectorAll('select')[1].innerHTML+="<option value='"+device.deviceId+"'>"+(device.label?device.label:"An audio device")+"</option>";}});
+document.querySelectorAll('select')[1].innerHTML+="</optgroup>";
+if(devices.length==0){document.querySelector('select').innerHTML="<optgroup label='Video Devices'><option selected>No video devices detected.</option></optgroup>";document.querySelectorAll('select')[1].innerHTML="<optgroup label='Audio Devices'><option selected>No audio devices detected.</option></optgroup>";}
 }).catch(alert);
-}else{document.querySelector('select').innerHTML="<option selected>The MediaDevices API is not supported.</option>";}
+}else{document.querySelector('select').innerHTML=document.querySelectorAll('select')[1].innerHTML="<option selected>The MediaDevices API is not supported.</option>";}
 }
 </script>
 </head>
@@ -39,7 +41,9 @@ if(devices.length==0){document.querySelector('select').innerHTML="<option select
 Front Cam gUM: <input type="radio" name="selCam" value="user" onchange="gUM(this.value);this.nextElementSibling.nextElementSibling.nextElementSibling.nextElementSibling.onchange();"/><br>
 Back Cam gUM: <input type="radio" name="selCam" value="environment" onchange="gUM(this.value);this.nextElementSibling.nextElementSibling.onchange();"/><br>
 Other Video Capture Device: <input type="radio" name="selCam" value="other" onchange="document.querySelector('select').disabled=!this.checked;"/><br>
-<button onclick="listDevices();">Refresh device list</button><select onchange="gUM({audio:true,video:{deviceId:{exact:this.value}}},1);" disabled><option selected>Loading devices...</option></select><br>
+<button onclick="listDevices();">Refresh device list</button>
+<select onchange="gUM({audio:{deviceId:{exact:this.nextElementSibling.value}},video:{deviceId:{exact:this.value}}},1);" disabled><option selected>Loading devices...</option></select>
+<select onchange="gUM({audio:{deviceId:{exact:this.value}},video:{deviceId:{exact:this.previousElementSibling.value}}},1);" disabled><option selected>Loading devices...</option></select><br>
 <video onloadedmetadata="this.play();amplifyMedia(this,2);" style="width:50%;display:inline-block;" playsinline></video>
 </body>
 </html>
