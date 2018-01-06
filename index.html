@@ -37,8 +37,8 @@ Other Video Capture Device: <input type="radio" name="selCam" value="other" onch
 <button onclick="listDevices();">Refresh device lists</button>
 <select onchange="gUM(document.querySelector('input[type=checkbox]').checked?document.querySelectorAll('input[type=checkbox]')[1].checked?{audio:null}:{audio:{deviceId:{exact:this.nextElementSibling.value}}}:document.querySelectorAll('input[type=checkbox]')[1].checked?{video:{deviceId:{exact:this.value}}}:{video:{deviceId:{exact:this.value}},audio:{deviceId:{exact:this.nextElementSibling.value}}},1);"><option selected>Loading video devices...</option></select>
 <select onchange="document.querySelector('select').onchange();"><option selected>Loading audio devices...</option></select><br>
-Disable Video: <input type="checkbox" onchange="document.querySelector('select').onchange();"/><br>
-Disable Audio: <input type="checkbox" onchange="document.querySelector('select').onchange();"/><br>
+Disable Video: <input type="checkbox" onchange="this.nextElementSibling.nextElementSibling.checked?event.preventDefault():document.querySelector('select').onchange();"/><br>
+Disable Audio: <input type="checkbox" onchange="this.previousElementSibling.previousElementSibling.checked?event.preventDefault():document.querySelector('select').onchange();"/><br>
 <video onloadedmetadata="this.play();" style="background-color:black;width:50%;display:inline-block;" playsinline></video>
 </body>
 </html>
