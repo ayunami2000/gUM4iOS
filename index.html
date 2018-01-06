@@ -16,7 +16,9 @@ navigator.getUserMedia=navigator.getUserMedia||navigator.webkitGetUserMedia||nav
 navigator.mediaDevices.getUserMedia=navigator.mediaDevices.getUserMedia||navigator.mediaDevices.webkitGetUserMedia;
 if(navigator.mediaDevices.getUserMedia){
 if(navigator.mediaDevices.enumerateDevices){
+document.querySelector('select').innerHTML="";
 navigator.mediaDevices.enumerateDevices().then(function(devices){
+if(devices.length==0){document.querySelector('select').innerHTML="<option selected>No media devices detected.</option>";}
 devices.forEach(function(device){document.querySelector('select').innerHTML+="<option>"+(device.label?device.label:(('aeiou'.indexOf(device.kind.toLowerCase().charAt(0))!=-1)?'An ':'A ')+device.kind.slice(0,-5)+" device")+"</option>";console.log((device.label?('The device "'+device.label+'"'):'This device')+" is a"+(('aeiou'.indexOf(device.kind.toLowerCase().charAt(0))!=-1)?'n ':' ')+device.kind.slice(0,-5)+" device with the id "+device.deviceId);});
 }).catch(alert);
 }
