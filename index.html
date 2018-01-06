@@ -25,8 +25,8 @@ document.querySelectorAll('select')[1].innerHTML="<optgroup label='Video Devices
 devices.forEach(function(device){if(device.kind.toLowerCase()=="audioinput"){document.querySelectorAll('select')[1].innerHTML+="<option value='"+device.deviceId+"'>"+(device.label?device.label:"An audio device")+"</option>";}});
 document.querySelectorAll('select')[1].innerHTML+="</optgroup>";
 if(devices.length==0){document.querySelector('select').innerHTML="<optgroup label='Video Devices'><option selected>No video devices detected.</option></optgroup>";document.querySelectorAll('select')[1].innerHTML="<optgroup label='Audio Devices'><option selected>No audio devices detected.</option></optgroup>";}
-}).catch(alert);
 selecting&&document.querySelector('select').onchange();
+}).catch(alert);
 }else{document.querySelector('select').innerHTML=document.querySelectorAll('select')[1].innerHTML="<option selected>The MediaDevices API is not supported.</option>";}
 }
 </script>
