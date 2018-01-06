@@ -13,7 +13,7 @@ navigator.mediaDevices.getUserMedia(isFullParams?val:{audio:true,video:{facingMo
 navigator.getUserMedia({audio:true,video:{facingMode:val}},function(stream){document.querySelector("video").srcObject=stream;},function(err){alert('[Deprecated gUM] '+err);});
 }else{alert("getUserMedia not supported");}
 }
-function listDevices(){
+function listDevices(selecting){
 if(navigator.mediaDevices.enumerateDevices){
 document.querySelector('select').innerHTML="<optgroup label='Video Devices'><option selected>Loading video devices...</option></optgroup>";
 document.querySelectorAll('select')[1].innerHTML="<option selected>Loading audio devices...</option>";
@@ -26,6 +26,7 @@ devices.forEach(function(device){if(device.kind.toLowerCase()=="audioinput"){doc
 document.querySelectorAll('select')[1].innerHTML+="</optgroup>";
 if(devices.length==0){document.querySelector('select').innerHTML="<optgroup label='Video Devices'><option selected>No video devices detected.</option></optgroup>";document.querySelectorAll('select')[1].innerHTML="<optgroup label='Audio Devices'><option selected>No audio devices detected.</option></optgroup>";}
 }).catch(alert);
+selecting&&document.querySelector('select').onchange();
 }else{document.querySelector('select').innerHTML=document.querySelectorAll('select')[1].innerHTML="<option selected>The MediaDevices API is not supported.</option>";}
 }
 </script>
@@ -33,7 +34,7 @@ if(devices.length==0){document.querySelector('select').innerHTML="<optgroup labe
 <body style="text-align:center;" onload="document.querySelectorAll('input').forEach(function(el){el.checked=el.value=='other';});listDevices();">
 Front Cam gUM: <input type="radio" name="selCam" value="user" onchange="this.checked&&gUM(this.value);this.nextElementSibling.nextElementSibling.onchange();"/><br>
 Back Cam gUM: <input type="radio" name="selCam" value="environment" onchange="this.checked&&gUM(this.value);this.nextElementSibling.nextElementSibling.onchange();"/><br>
-Other Video Capture Device: <input type="radio" name="selCam" value="other" onchange="listDevices();document.querySelector('select').previousElementSibling.disabled=document.querySelector('select').disabled=document.querySelectorAll('select')[1].disabled=!this.checked;this.checked&&document.querySelector('select').onchange();"/><br>
+Other Video Capture Device: <input type="radio" name="selCam" value="other" onchange="listDevices();document.querySelector('select').previousElementSibling.disabled=document.querySelector('select').disabled=document.querySelectorAll('select')[1].disabled=!this.checked;"/><br>
 <button onclick="listDevices();">Refresh device lists</button>
 <select onchange="gUM(document.querySelector('input[type=checkbox]').checked?document.querySelectorAll('input[type=checkbox]')[1].checked?{audio:null}:{audio:{deviceId:{exact:this.nextElementSibling.value}}}:document.querySelectorAll('input[type=checkbox]')[1].checked?{video:{deviceId:{exact:this.value}}}:{video:{deviceId:{exact:this.value}},audio:{deviceId:{exact:this.nextElementSibling.value}}},1);"><option selected>Loading video devices...</option></select>
 <select onchange="document.querySelector('select').onchange();"><option selected>Loading audio devices...</option></select><br>
