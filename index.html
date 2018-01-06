@@ -19,9 +19,9 @@ if(navigator.mediaDevices.getUserMedia){navigator.mediaDevices.getUserMedia({aud
 </script>
 </head>
 <body style="text-align:center;" onload="document.querySelector('input').checked=document.querySelectorAll('input')[1].checked=0;">
-Front Cam gUM: <input type="radio" name="selCam" value="user" onchange="gUM(this.value);"/><br>
-Back Cam gUM: <input type="radio" name="selCam" value="environment" onchange="gUM(this.value);"/><br>
-Other Video Capture Device: <input type="radio" name="selCam" value="other" onchange="this.nextElementSibling.nextElementSibling.disabled=this.checked;"/><br>
+Front Cam gUM: <input type="radio" name="selCam" value="user" onchange="gUM(this.value);this.nextElementSibling.nextElementSibling.nextElementSibling.nextElementSibling.onchange();"/><br>
+Back Cam gUM: <input type="radio" name="selCam" value="environment" onchange="gUM(this.value);this.nextElementSibling.nextElementSibling.onchange();"/><br>
+Other Video Capture Device: <input type="radio" name="selCam" value="other" onchange="this.nextElementSibling.nextElementSibling.disabled=!this.checked;"/><br>
 <input type="select" name="selCam" onchange="gUM(this.value);" disabled/><br>
 <video onloadedmetadata="this.play();amplifyMedia(this,2);" style="width:50%;display:inline-block;" playsinline></video>
 </body>
