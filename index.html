@@ -24,12 +24,12 @@ function listDevices(){
 if(navigator.mediaDevices.enumerateDevices){
 document.querySelector('select').innerHTML="<option selected>Loading devices...</option>";
 navigator.mediaDevices.enumerateDevices().then(function(devices){
-if(devices.length==0){document.querySelector('select').innerHTML="<option selected>No media devices detected.</option>";}
 document.querySelector('select').innerHTML="<optgroup label='Video Devices'>";
 devices.forEach(function(device){if(device.kind.toLowerCase()=="videoinput"){document.querySelector('select').innerHTML+="<option value='"+device.deviceId+"'>"+(device.label?device.label:"A video device")+"</option>";}});
-document.querySelector('select').innerHTML="</optgroup><optgroup label='Audio Devices'>";
+document.querySelector('select').innerHTML+="</optgroup><optgroup label='Audio Devices'>";
 devices.forEach(function(device){if(device.kind.toLowerCase()=="audioinput"){document.querySelector('select').innerHTML+="<option value='"+device.deviceId+"'>"+(device.label?device.label:"An audio device")+"</option>";}});
-document.querySelector('select').innerHTML="</optgroup>";
+document.querySelector('select').innerHTML+="</optgroup>";
+if(devices.length==0){document.querySelector('select').innerHTML="<option selected>No media devices detected.</option>";}
 }).catch(alert);
 }else{document.querySelector('select').innerHTML="<option selected>The MediaDevices API is not supported.</option>";}
 }
