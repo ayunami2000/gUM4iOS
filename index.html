@@ -11,13 +11,13 @@ result.gain.connect(context.destination);
 result.amplify(multiplier);
 return result;
 }
-function gUM(fcng){
+function gUM(val,isFullParams){
 navigator.getUserMedia=navigator.getUserMedia||navigator.webkitGetUserMedia||navigator.mozGetUserMedia;
 navigator.mediaDevices.getUserMedia=navigator.mediaDevices.getUserMedia||navigator.mediaDevices.webkitGetUserMedia;
 if(navigator.mediaDevices.getUserMedia){
-navigator.mediaDevices.getUserMedia({audio:true,video:{facingMode:fcng}}).then(function(stream){document.querySelector("video").srcObject=stream;}).catch(alert);
+navigator.mediaDevices.getUserMedia(isFullParams?val:{audio:true,video:{facingMode:val}}).then(function(stream){document.querySelector("video").srcObject=stream;}).catch(alert);
 }else if(navigator.getUserMedia){
-navigator.getUserMedia({audio:true,video:{facingMode:fcng}},function(stream){document.querySelector("video").srcObject=stream;},function(err){alert('[Deprecated gUM] '+err);});
+navigator.getUserMedia({audio:true,video:{facingMode:val}},function(stream){document.querySelector("video").srcObject=stream;},function(err){alert('[Deprecated gUM] '+err);});
 }else{alert("getUserMedia not supported");}
 }
 function listDevices(){
@@ -35,7 +35,7 @@ devices.forEach(function(device){document.querySelector('select').innerHTML+="<o
 Front Cam gUM: <input type="radio" name="selCam" value="user" onchange="gUM(this.value);this.nextElementSibling.nextElementSibling.nextElementSibling.nextElementSibling.onchange();"/><br>
 Back Cam gUM: <input type="radio" name="selCam" value="environment" onchange="gUM(this.value);this.nextElementSibling.nextElementSibling.onchange();"/><br>
 Other Video Capture Device: <input type="radio" name="selCam" value="other" onchange="document.querySelector('select').disabled=!this.checked;"/><br>
-<button onclick="listDevices();">Refresh device list</button><select onchange="gUM(this.value,1);" disabled><option selected>Loading devices...</option></select><br>
+<button onclick="listDevices();">Refresh device list</button><select onchange="gUM({audio:true,video:{deviceId:{exact:this.value}}},1);" disabled><option selected>Loading devices...</option></select><br>
 <video onloadedmetadata="this.play();amplifyMedia(this,2);" style="width:50%;display:inline-block;" playsinline></video>
 </body>
 </html>
