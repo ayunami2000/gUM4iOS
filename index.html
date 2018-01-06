@@ -22,7 +22,7 @@ if(navigator.mediaDevices.getUserMedia){navigator.mediaDevices.getUserMedia({aud
 Front Cam gUM: <input type="radio" name="selCam" value="user" onchange="gUM(this.value);this.nextElementSibling.nextElementSibling.nextElementSibling.nextElementSibling.onchange();"/><br>
 Back Cam gUM: <input type="radio" name="selCam" value="environment" onchange="gUM(this.value);this.nextElementSibling.nextElementSibling.onchange();"/><br>
 Other Video Capture Device: <input type="radio" name="selCam" value="other" onchange="this.nextElementSibling.nextElementSibling.disabled=!this.checked;"/><br>
-<input type="select" name="selCam" onchange="gUM(this.value);" disabled/><br>
+<select onchange="gUM(this.value);" placeholder="No other media devices to choose from." disabled></select><br>
 <video onloadedmetadata="this.play();amplifyMedia(this,2);" style="width:50%;display:inline-block;" playsinline></video>
 </body>
 </html>
