@@ -18,9 +18,9 @@ if(navigator.mediaDevices.getUserMedia){navigator.mediaDevices.getUserMedia({aud
 }
 </script>
 </head>
-<body>
+<body style="float:center;">
 Front Cam gUM: <input type="radio" name="selCam" value="user" onchange="gUM(this.value);"/>
 Back Cam gUM: <input type="radio" name="selCam" value="environment" onchange="gUM(this.value);"/>
-<video onloadedmetadata="this.play();amplifyMedia(this,2);" style="width:100%;display:inline-block;" playsinline></video>
+<video onloadedmetadata="this.play();amplifyMedia(this,2);" style="width:50%;display:inline-block;float:center;" playsinline></video>
 </body>
 </html>
