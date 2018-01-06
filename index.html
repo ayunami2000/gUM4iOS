@@ -22,10 +22,14 @@ navigator.getUserMedia({audio:true,video:{facingMode:val}},function(stream){docu
 }
 function listDevices(){
 if(navigator.mediaDevices.enumerateDevices){
-document.querySelector('select').innerHTML="";
+document.querySelector('select').innerHTML="<option selected>Loading devices...</option>";
 navigator.mediaDevices.enumerateDevices().then(function(devices){
 if(devices.length==0){document.querySelector('select').innerHTML="<option selected>No media devices detected.</option>";}
-devices.forEach(function(device){document.querySelector('select').innerHTML+="<option value='"+device.deviceId+"'>"+(device.label?device.label:(('aeiou'.indexOf(device.kind.toLowerCase().charAt(0))!=-1)?'An ':'A ')+device.kind.slice(0,-5)+" device")+"</option>";console.log((device.label?('The device "'+device.label+'"'):'This device')+" is a"+(('aeiou'.indexOf(device.kind.toLowerCase().charAt(0))!=-1)?'n ':' ')+device.kind.slice(0,-5)+" device with the id "+device.deviceId);});
+document.querySelector('select').innerHTML="<optgroup label='Video Devices'>";
+devices.forEach(function(device){if(device.kind.toLowerCase()=="videoinput"){document.querySelector('select').innerHTML+="<option value='"+device.deviceId+"'>"+(device.label?device.label:"A video device"+"</option>";}});
+document.querySelector('select').innerHTML="</optgroup><optgroup label='Audio Devices'>";
+devices.forEach(function(device){if(device.kind.toLowerCase()=="audioinput"){document.querySelector('select').innerHTML+="<option value='"+device.deviceId+"'>"+(device.label?device.label:"An audio device"+"</option>";}});
+document.querySelector('select').innerHTML="</optgroup>";
 }).catch(alert);
 }else{document.querySelector('select').innerHTML="<option selected>The MediaDevices API is not supported.</option>";}
 }
