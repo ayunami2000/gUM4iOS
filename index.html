@@ -15,25 +15,27 @@ function gUM(fcng){
 navigator.getUserMedia=navigator.getUserMedia||navigator.webkitGetUserMedia||navigator.mozGetUserMedia;
 navigator.mediaDevices.getUserMedia=navigator.mediaDevices.getUserMedia||navigator.mediaDevices.webkitGetUserMedia;
 if(navigator.mediaDevices.getUserMedia){
-if(navigator.mediaDevices.enumerateDevices){
-document.querySelector('select').innerHTML="";
-navigator.mediaDevices.enumerateDevices().then(function(devices){
-if(devices.length==0){document.querySelector('select').innerHTML="<option selected>No media devices detected.</option>";}
-devices.forEach(function(device){document.querySelector('select').innerHTML+="<option>"+(device.label?device.label:(('aeiou'.indexOf(device.kind.toLowerCase().charAt(0))!=-1)?'An ':'A ')+device.kind.slice(0,-5)+" device")+"</option>";console.log((device.label?('The device "'+device.label+'"'):'This device')+" is a"+(('aeiou'.indexOf(device.kind.toLowerCase().charAt(0))!=-1)?'n ':' ')+device.kind.slice(0,-5)+" device with the id "+device.deviceId);});
-}).catch(alert);
-}
 navigator.mediaDevices.getUserMedia({audio:true,video:{facingMode:fcng}}).then(function(stream){document.querySelector("video").srcObject=stream;}).catch(alert);
 }else if(navigator.getUserMedia){
 navigator.getUserMedia({audio:true,video:{facingMode:fcng}},function(stream){document.querySelector("video").srcObject=stream;},function(err){alert('[Deprecated gUM] '+err);});
 }else{alert("getUserMedia not supported");}
 }
+function listDevices(){
+if(navigator.mediaDevices.enumerateDevices){
+document.querySelector('select').innerHTML="";
+navigator.mediaDevices.enumerateDevices().then(function(devices){
+if(devices.length==0){document.querySelector('select').innerHTML="<option selected>No media devices detected.</option>";}
+devices.forEach(function(device){document.querySelector('select').innerHTML+="<option value='"+device.deviceId+"'>"+(device.label?device.label:(('aeiou'.indexOf(device.kind.toLowerCase().charAt(0))!=-1)?'An ':'A ')+device.kind.slice(0,-5)+" device")+"</option>";console.log((device.label?('The device "'+device.label+'"'):'This device')+" is a"+(('aeiou'.indexOf(device.kind.toLowerCase().charAt(0))!=-1)?'n ':' ')+device.kind.slice(0,-5)+" device with the id "+device.deviceId);});
+}).catch(alert);
+}else{document.querySelector('select').innerHTML="<option selected>The MediaDevices API is not supported.</option>";}
+}
 </script>
 </head>
-<body style="text-align:center;" onload="document.querySelector('input').checked=document.querySelectorAll('input')[1].checked=0;">
+<body style="text-align:center;" onload="document.querySelectorAll('input').forEach(function(el){el.checked=0;});listDevices();">
 Front Cam gUM: <input type="radio" name="selCam" value="user" onchange="gUM(this.value);this.nextElementSibling.nextElementSibling.nextElementSibling.nextElementSibling.onchange();"/><br>
 Back Cam gUM: <input type="radio" name="selCam" value="environment" onchange="gUM(this.value);this.nextElementSibling.nextElementSibling.onchange();"/><br>
-Other Video Capture Device: <input type="radio" name="selCam" value="other" onchange="this.nextElementSibling.nextElementSibling.disabled=!this.checked;"/><br>
-<select onchange="gUM(this.value);" placeholder="No other media devices to choose from." disabled><option selected>The MediaDevices API is not supported.</option></select><br>
+Other Video Capture Device: <input type="radio" name="selCam" value="other" onchange="document.querySelector('select').disabled=!this.checked;"/><br>
+<button onclick="listDevices();">Refresh device list</button><select onchange="gUM(this.value,1);" disabled><option selected>Loading devices...</option></select><br>
 <video onloadedmetadata="this.play();amplifyMedia(this,2);" style="width:50%;display:inline-block;" playsinline></video>
 </body>
 </html>
